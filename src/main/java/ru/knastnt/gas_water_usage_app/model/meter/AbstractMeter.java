@@ -5,7 +5,6 @@ import lombok.Setter;
 import ru.knastnt.gas_water_usage_app.model.Account;
 
 import javax.persistence.*;
-import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -16,11 +15,11 @@ public abstract class AbstractMeter {
     @Id
     @GeneratedValue
     protected Long id;
-    @ManyToOne(optional = false)
-    private Account account;
     @Column(nullable = false)
     protected String identity;
     @Column(nullable = false)
     protected LocalDate startWorking;
     protected LocalDate endWorking;
+    @ManyToOne(optional = false)
+    protected Account account;
 }
