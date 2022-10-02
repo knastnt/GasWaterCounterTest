@@ -1,7 +1,6 @@
 package ru.knastnt.gas_water_usage_app.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import ru.knastnt.gas_water_usage_app.model.meter.AbstractMeter;
 
 import javax.persistence.*;
@@ -11,14 +10,18 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Account {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, unique = true)
     private String accountNum;
     @ManyToOne(optional = false)
     private Customer customer;
     @OneToMany(mappedBy = "account")
+    @Builder.Default
     private List<AbstractMeter> meters = new ArrayList<>();
 }

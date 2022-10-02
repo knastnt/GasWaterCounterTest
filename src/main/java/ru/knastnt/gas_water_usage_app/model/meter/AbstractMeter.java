@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Setter
 public abstract class AbstractMeter {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
     @Column(nullable = false)
     protected String identity;

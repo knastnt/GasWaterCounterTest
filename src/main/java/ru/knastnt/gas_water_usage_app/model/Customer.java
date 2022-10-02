@@ -1,7 +1,6 @@
 package ru.knastnt.gas_water_usage_app.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
@@ -15,9 +14,12 @@ import static org.springframework.util.StringUtils.hasText;
 @Getter
 @Setter
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Customer {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false)
     private String firstName;
@@ -25,6 +27,7 @@ public class Customer {
     @Column(nullable = false)
     private String lastName;
     @OneToMany(mappedBy = "customer")
+    @Builder.Default
     private List<Account> accounts = new ArrayList<>();
 
     public String getDemoFio() {
