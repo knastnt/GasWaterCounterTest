@@ -1,0 +1,79 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+            http://www.liquibase.org/xml/ns/dbchangelog
+            http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <changeSet author="knastnt" id="init-1">
+        <createTable tableName="ABSTRACT_METER">
+            <column name="DTYPE" type="VARCHAR(31)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="ABSTRACT_METER_PK"/>
+            </column>
+            <column name="END_WORKING" type="date"/>
+            <column name="IDENTITY" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="START_WORKING" type="date">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TYPE_OF_WATER" type="VARCHAR(255)"/>
+            <column name="ACCOUNT_ID" type="BIGINT">
+                <constraints nullable="false" referencedTableName="ACCOUNT" referencedColumnNames="ID" foreignKeyName="ABSTRACT_METER_ACCOUNT_ID_FK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="knastnt" id="init-2">
+        <createTable tableName="ACCOUNT">
+            <column name="ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="ACCOUNT_PK"/>
+            </column>
+            <column name="ACCOUNT_NUM" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="CUSTOMER_ID" type="BIGINT">
+                <constraints nullable="false" referencedTableName="CUSTOMER" referencedColumnNames="ID" foreignKeyName="ACCOUNT_CUSTOMER_ID_FK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="knastnt" id="init-3">
+        <createTable tableName="CUSTOMER">
+            <column name="ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="CUSTOMER_PK"/>
+            </column>
+            <column name="FIRST_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LAST_NAME" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MIDDLE_NAME" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="knastnt" id="init-4">
+        <createTable tableName="MEASURE_HISTORY">
+            <column name="ID" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="MEASURE_HISTORY_PK"/>
+            </column>
+            <column name="CREATED" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="VALUE" type="numeric(19, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="METER_ID" type="BIGINT">
+                <constraints nullable="false" referencedTableName="ABSTRACT_METER" referencedColumnNames="ID" foreignKeyName="MEASURE_HISTORY_METER_ID_FK"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="knastnt" id="init-5">
+        <createIndex indexName="ACCOUNT_CUSTOMER_ID_INDX" tableName="ACCOUNT">
+            <column name="CUSTOMER_ID"/>
+        </createIndex>
+        <createIndex indexName="ABSTRACT_METER_ACCOUNT_ID_INDX" tableName="ABSTRACT_METER">
+            <column name="ACCOUNT_ID"/>
+        </createIndex>
+    </changeSet>
+</databaseChangeLog>

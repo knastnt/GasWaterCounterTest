@@ -19,8 +19,7 @@ public class MeasureHistory {
     @GeneratedValue
     private Long id;
 
-    @Column(nullable = false)
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private AbstractMeter meter;
 
     @Column(nullable = false)
