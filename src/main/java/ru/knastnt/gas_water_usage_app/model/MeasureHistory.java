@@ -1,8 +1,6 @@
 package ru.knastnt.gas_water_usage_app.model;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import ru.knastnt.gas_water_usage_app.model.meter.AbstractMeter;
 
@@ -13,6 +11,8 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class MeasureHistory {
     @Id

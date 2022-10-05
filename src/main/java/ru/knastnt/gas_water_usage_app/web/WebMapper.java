@@ -41,7 +41,7 @@ public class WebMapper {
         result.setIdentity(meter.getIdentity());
         result.setType(MeterType.getByMeter(meter));
         result.setCurrentValue(measureHistoryRepository
-                .findFirstByMeterOrderByCreatedDesc(meter).map(MeasureHistory::getValue).orElse(null));
+                .findFirstByMeterOrderByIdDesc(meter).map(MeasureHistory::getValue).orElse(null));
         result.setStartWorking(meter.getStartWorking());
         result.setEndWorking(meter.getEndWorking());
 

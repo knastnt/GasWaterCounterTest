@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface MeasureHistoryRepository extends CrudRepository<MeasureHistory, Long> {
-    Optional<MeasureHistory> findFirstByMeterOrderByCreatedDesc(AbstractMeter meter);
-    List<MeasureHistory> findByMeterOrderByCreatedDesc(AbstractMeter meter);
+    Optional<MeasureHistory> findFirstByMeterOrderByIdDesc(AbstractMeter meter);
+    List<MeasureHistory> findByMeterIdOrderByCreatedDesc(Long meterId);
 }
