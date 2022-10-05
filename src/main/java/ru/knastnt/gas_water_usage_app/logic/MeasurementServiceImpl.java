@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.knastnt.gas_water_usage_app.exceptions.InactiveMeterException;
 import ru.knastnt.gas_water_usage_app.exceptions.IncorrectMeasurementException;
 import ru.knastnt.gas_water_usage_app.exceptions.NotFoundException;
 import ru.knastnt.gas_water_usage_app.model.Account;
@@ -14,6 +15,7 @@ import ru.knastnt.gas_water_usage_app.repository.MeasureHistoryRepository;
 import ru.knastnt.gas_water_usage_app.repository.MeterRepository;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,14 +34,22 @@ public class MeasurementServiceImpl implements MeasurementService {
     @Transactional
     public void submitMeasure(BigDecimal newValue, Long meterId) {
         log.debug("Submit measure {} for meterId = {}", newValue, meterId);
-        if (newValue == null || newValue.signum() <= 0) throw new IncorrectMeasurementException("Measurement must be positive number");
+        if (newValue == null || newValue.signum() <= 0)
+            throw new IncorrectMeasurementException("Measurement must be positive number");
+
+        AbstractMeter meter = fetchMeter(meterId);
 
         getLastMeterMeasure(meterId).ifPresent(lastMeasure -> {
             if (lastMeasure.compareTo(newValue) > 0)
                 throw new IncorrectMeasurementException("Previous measurement is bigger than new");
         });
 
-        measureHistoryRepository.save(new MeasureHistory(fetchMeter(meterId), newValue));
+        if (
+            meter.getStartWorking().isAfter(LocalDate.now()) ||
+            (meter.getEndWorking() != null && meter.getEndWorking().isBefore(LocalDate.now()))
+        ) throw new InactiveMeterException("Measurement work time isn't correspond with now");
+
+        measureHistoryRepository.save(new MeasureHistory(meter, newValue));
     }
 
     @Override

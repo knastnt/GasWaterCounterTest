@@ -216,6 +216,16 @@ class WebControllerTest extends GasWaterUsageAppApplicationTests {
         }
 
         @Test
+        void inactiveMeter_return400() throws Exception {
+            mockMvc.perform(MockMvcRequestBuilders.post("/meter/" + meter2.getId() + "/history")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{\"value\": \"9.00\"}"))
+                    .andDo(MockMvcResultHandlers.print())
+                    .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                    .andExpect(MockMvcResultMatchers.content().string("Measurement work time isn't correspond with now"));
+        }
+
+        @Test
         void meterHistory() throws Exception {
             mockMvc.perform(MockMvcRequestBuilders.get("/meter/" + meter1.getId() + "/history"))
                     .andDo(MockMvcResultHandlers.print())

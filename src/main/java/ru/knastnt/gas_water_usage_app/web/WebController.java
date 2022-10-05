@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.knastnt.gas_water_usage_app.exceptions.InactiveMeterException;
 import ru.knastnt.gas_water_usage_app.exceptions.IncorrectMeasurementException;
 import ru.knastnt.gas_water_usage_app.exceptions.NotFoundException;
 import ru.knastnt.gas_water_usage_app.logic.MeasurementService;
@@ -49,6 +50,11 @@ public class WebController {
     @ExceptionHandler(IncorrectMeasurementException.class)
     public ResponseEntity<String> handleEx(IncorrectMeasurementException e) {
         log.warn("IncorrectMeasurementException in rest calling", e);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+    @ExceptionHandler(InactiveMeterException.class)
+    public ResponseEntity<String> handleEx(InactiveMeterException e) {
+        log.warn("InactiveMeterException in rest calling", e);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 }
