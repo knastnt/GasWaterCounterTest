@@ -91,7 +91,21 @@ Application starts at ```8080``` port.
 }
 ```
 
-```GET /meter/{meterId}/history``` 
+###```GET /meter/{meterId}/history```
+Отображает список показаний по конкретному счётчику. <b>meterId</b> = <b>id</b> счётчика из запроса ```GET /account/{accountNumber}```.
+Пример ответа:
+```
+[                                           //Список переданных показаний по счётчику. Наиболее свежие показания ввержу списка
+  {
+    "created": "2022-10-05T15:43:38.123",   //Дата передачи показания
+    "value": 9.93                           //Значение
+  },
+  {
+    "created": "2022-10-05T15:43:38.121",
+    "value": 1.15
+  }
+]
+```
 
 ```POST http://localhost:8080/meter/{meterId}/history``` 
 
