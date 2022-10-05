@@ -12,6 +12,5 @@ import java.util.Optional;
 public interface MeasurementService {
     void submitMeasure(BigDecimal value, Long meterId);
     List<MeasureHistory> getMeasureHistory(Long meterId);
-
     Optional<Account> getAccountInfo(String accountNum);
 }
