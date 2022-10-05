@@ -21,41 +21,41 @@ Application starts at ```8080``` port.
 
 ---
 
-Приложение позволяет вести базу данных клиентов (Фамилия, Имя, Отчество).
-У каждого клиента может быть несколько счетов (например, по счёту на каждую квартиру клиента).
-Счёт имеет уникальный идентификатор (например, 1801345A22), а также список привязанных к нему счётчиков.
-В системе реализованы 2 типа счётчиков: счетчик газа и счётчик воды. Последний может быть либо для горячей, либо для холодной воды.
-Каждый счётчик имеет параметры: идентификационный номер, дата ввода в эксплуатацию и даты вывода из неё.
+The application allows you to maintain a database of customers (first name, middle name, last name).
+Each customer can have several accounts (for example, one account for each customer's apartment).
+The account has an unique identifier (for example, 1801345A22), and a list of meters associated with it.
+There are 2 types of meters implemented in the system: a gas meter and a water meter. The water meter can be either for hot or cold water.
+Each meter has parameters: identification number, date of putting into exploitation and date of removal from it.
 
 
 ---
 
 
-## REST эндпоинты
+## REST endpoints
 
-> **Note:** Для документирования REST к приложению подключен <a href="https://swagger.io/">Swagger</a>:<br>
+> **Note:** The application contains the <a href="https://swagger.io/">Swagger</a> for REST documenting:<br>
 > <a href="http://localhost:8080/v2/api-docs">localhost:8080/v2/api-docs</a><br>
 > <a href="http://localhost:8080/documentation/swagger-resources">localhost:8080/documentation/swagger-resources</a><br>
 > <a href="http://localhost:8080/documentation/swagger-ui/">localhost:8080/documentation/swagger-ui/</a>
 >
-####В приложении реализованы 3 эндпоинта:
+####There are 3 endpoints:
 
 
 ###```GET /account/{accountNumber}```
-Отображает информацию о счёте. Включает в себя информацию о клиенте, информацию о прикрепленных к счёту счётчиках и характеристики счётчиков.
-Пример ответа:
+Displays account information. Includes information about a customer, information about attached meters and characteristics of these meters.
+Response example:
 ```
 {
-  "userName": "Иван Иванович И.",   //ФИО клиента. Отображается только первая буква фамилии
-  "accountNumber": "1801345A22",    //Счёт клиента
-  "meters": [                       //Список счётчиков, прикреплённых к счёту
+  "userName": "Ivan Ivanovich I.",   //Full name of the customer. Only the first letter of the last name is displayed
+  "accountNumber": "1801345A22",    //Customer's account
+  "meters": [                       //List of attached meters
     {
-      "id": 24,                     //Уникальный идентификатор счётчика. Используется при передаче показаний и при отображении истории показаний
-      "identity": "X000123",        //Серийный номер счётчика. Передаётся на фронт и используется для идентификации счётчика клиентом
-      "type": "WATER_HOT",          //На данный момент доступно 3 типа счетчиков: WATER_HOT, WATER_COLD, GAS
-      "currentValue": 9.93,         //Отображается последнее переданное показание по этому счётчику
-      "startWorking": "2022-10-05", //Дата ввода в эксплуатацию
-      "endWorking": null            //Дата вывода из эксплуатации
+      "id": 24,                     //The unique ID of the meter. Used in submitting measurements and displaying the history of measurements
+      "identity": "X000123",        //Serial number of the meter. Transmitted to the front and used to identify the meter by a customer
+      "type": "WATER_HOT",          //Currently 3 types of counters are available: WATER_HOT, WATER_COLD, GAS
+      "currentValue": 9.93,         //The last submitted measurement for this meter is displayed
+      "startWorking": "2022-10-05", //Date of putting into exploitation
+      "endWorking": null            //Date of removal from exploitation
     },
     {
       "id": 25,
