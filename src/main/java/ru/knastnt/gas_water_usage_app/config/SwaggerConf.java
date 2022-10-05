@@ -11,6 +11,7 @@ public class SwaggerConf {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
+                .useDefaultResponseMessages(false)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("ru.knastnt.gas_water_usage_app.web"))
                 .build();
