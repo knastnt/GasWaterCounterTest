@@ -206,6 +206,16 @@ class WebControllerTest extends GasWaterUsageAppApplicationTests {
         }
 
         @Test
+        void lessMeasure_return400() throws Exception {
+            mockMvc.perform(MockMvcRequestBuilders.post("/meter/" + meter1.getId() + "/history")
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content("{\"value\": \"9.00\"}"))
+                    .andDo(MockMvcResultHandlers.print())
+                    .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                    .andExpect(MockMvcResultMatchers.content().string("Previous measurement is bigger than new"));
+        }
+
+        @Test
         void meterHistory() throws Exception {
             mockMvc.perform(MockMvcRequestBuilders.get("/meter/" + meter1.getId() + "/history"))
                     .andDo(MockMvcResultHandlers.print())

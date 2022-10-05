@@ -33,20 +33,34 @@ public class MeasurementServiceImpl implements MeasurementService {
     public void submitMeasure(BigDecimal newValue, Long meterId) {
         log.debug("Submit measure {} for meterId = {}", newValue, meterId);
         if (newValue == null || newValue.signum() <= 0) throw new IncorrectMeasurementException("Measurement must be positive number");
-        AbstractMeter meter = meterRepository.findById(meterId).orElseThrow(() -> new NotFoundException("Meter not found"));
-        Optional<MeasureHistory> lastMeasure = measureHistoryRepository.findFirstByMeterOrderByIdDesc(meter);
-        if (lastMeasure.isPresent() && lastMeasure.get().getValue().compareTo(newValue) > 0)
-            throw new IncorrectMeasurementException("Previous measurement is bigger than new");
-        measureHistoryRepository.save(new MeasureHistory(meter, newValue));
+
+        getLastMeterMeasure(meterId).ifPresent(lastMeasure -> {
+            if (lastMeasure.compareTo(newValue) > 0)
+                throw new IncorrectMeasurementException("Previous measurement is bigger than new");
+        });
+
+        measureHistoryRepository.save(new MeasureHistory(fetchMeter(meterId), newValue));
     }
 
     @Override
     public List<MeasureHistory> getMeasureHistory(Long meterId) {
-        return measureHistoryRepository.findByMeterIdOrderByCreatedDesc(meterId);
+        fetchMeter(meterId);
+        return measureHistoryRepository.findByMeterIdOrderByIdDesc(meterId);
     }
 
     @Override
     public Optional<Account> getAccountInfo(String accountNum) {
         return accountRepository.findByAccountNum(accountNum);
+    }
+
+    @Override
+    public Optional<BigDecimal> getLastMeterMeasure(Long meterId) {
+        AbstractMeter meter = fetchMeter(meterId);
+        return measureHistoryRepository.findFirstByMeterOrderByIdDesc(meter)
+                .map(MeasureHistory::getValue);
+    }
+
+    private AbstractMeter fetchMeter(Long meterId) {
+        return meterRepository.findById(meterId).orElseThrow(() -> new NotFoundException("Meter not found"));
     }
 }
