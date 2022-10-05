@@ -21,7 +21,7 @@ public class Account {
     private String accountNum;
     @ManyToOne(optional = false)
     private Customer customer;
-    @OneToMany(mappedBy = "account")
+    @OneToMany(mappedBy = "account", targetEntity = AbstractMeter.class, fetch = FetchType.EAGER)
     @Builder.Default
     private List<AbstractMeter> meters = new ArrayList<>();
 }

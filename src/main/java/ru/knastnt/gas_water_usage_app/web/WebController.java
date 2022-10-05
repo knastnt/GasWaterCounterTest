@@ -35,7 +35,7 @@ public class WebController {
     }
 
     @GetMapping("/meter/{meterId}/history")
-    public ResponseEntity<List<MeasureHistoryDto>> getInfo(@PathVariable Long meterId) {
+    public ResponseEntity<List<MeasureHistoryDto>> getHistory(@PathVariable Long meterId) {
         return ResponseEntity.ok(mapper.mapHistList(measurementService.getMeasureHistory(meterId)));
     }
 

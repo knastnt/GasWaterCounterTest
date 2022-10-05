@@ -6,7 +6,7 @@
             http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
     <changeSet author="knastnt" id="init-1">
         <createTable tableName="CUSTOMER">
-            <column name="ID" type="BIGINT">
+            <column name="ID" type="BIGINT" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="CUSTOMER_PK"/>
             </column>
             <column name="FIRST_NAME" type="VARCHAR(255)">
@@ -20,7 +20,7 @@
     </changeSet>
     <changeSet author="knastnt" id="init-2">
         <createTable tableName="ACCOUNT">
-            <column name="ID" type="BIGINT">
+            <column name="ID" type="BIGINT" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="ACCOUNT_PK"/>
             </column>
             <column name="ACCOUNT_NUM" type="VARCHAR(255)">
@@ -33,11 +33,11 @@
     </changeSet>
     <changeSet author="knastnt" id="init-3">
         <createTable tableName="ABSTRACT_METER">
+            <column name="ID" type="BIGINT" autoIncrement="true">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="ABSTRACT_METER_PK"/>
+            </column>
             <column name="DTYPE" type="VARCHAR(31)">
                 <constraints nullable="false"/>
-            </column>
-            <column name="ID" type="BIGINT">
-                <constraints nullable="false" primaryKey="true" primaryKeyName="ABSTRACT_METER_PK"/>
             </column>
             <column name="END_WORKING" type="date"/>
             <column name="IDENTITY" type="VARCHAR(255)">
@@ -54,7 +54,7 @@
     </changeSet>
     <changeSet author="knastnt" id="init-4">
         <createTable tableName="MEASURE_HISTORY">
-            <column name="ID" type="BIGINT">
+            <column name="ID" type="BIGINT" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="MEASURE_HISTORY_PK"/>
             </column>
             <column name="CREATED" type="TIMESTAMP">
@@ -75,5 +75,11 @@
         <createIndex indexName="ABSTRACT_METER_ACCOUNT_ID_INDX" tableName="ABSTRACT_METER">
             <column name="ACCOUNT_ID"/>
         </createIndex>
+    </changeSet>
+    <changeSet author="knastnt" id="init-6">
+        <!-- Примем, что на определённом счёте пользователя не может быть двух счётчиков с одинаковыми серийными номерами.
+             По-хорошему серийные номера наверное уникальны в рамках одного производителя счётчика, но, т.к. здесь не
+             ведётся учёт производителей, думаю, такое упрощение с большой долей вероятности верно -->
+        <addUniqueConstraint tableName="abstract_meter" columnNames="identity, account_id"/>
     </changeSet>
 </databaseChangeLog>
