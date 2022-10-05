@@ -9,5 +9,4 @@ public class GasWaterUsageAppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(GasWaterUsageAppApplication.class, args);
 	}
-
 }
