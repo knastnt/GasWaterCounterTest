@@ -80,6 +80,42 @@
         <!-- Примем, что на определённом счёте пользователя не может быть двух счётчиков с одинаковыми серийными номерами.
              По-хорошему серийные номера наверное уникальны в рамках одного производителя счётчика, но, т.к. здесь не
              ведётся учёт производителей, думаю, такое упрощение с большой долей вероятности верно -->
-        <addUniqueConstraint tableName="abstract_meter" columnNames="identity, account_id"/>
+        <addUniqueConstraint tableName="abstract_meter" columnNames="identity, account_id" constraintName="unic_abstract_meter_identity_account_id"/>
+    </changeSet>
+    <changeSet author="knastnt" id="init-7">
+        <comment>
+            Add constraint 'CHECK_ABSTRACT_METER_DTYPE' to table 'ABSTRACT_METER'
+        </comment>
+
+        <sql>
+            ALTER TABLE ABSTRACT_METER
+            ADD CONSTRAINT CHECK_ABSTRACT_METER_DTYPE
+            CHECK (DTYPE IN ('GM', 'WM'))
+        </sql>
+
+        <rollback>
+            <sql>
+                ALTER TABLE ABSTRACT_METER
+                DROP CONSTRAINT CHECK_ABSTRACT_METER_DTYPE
+            </sql>
+        </rollback>
+    </changeSet>
+    <changeSet author="knastnt" id="init-8">
+        <comment>
+            Add constraint 'CHECK_ABSTRACT_METER_TYPE_OF_WATER' to table 'ABSTRACT_METER'
+        </comment>
+
+        <sql>
+            ALTER TABLE ABSTRACT_METER
+            ADD CONSTRAINT CHECK_ABSTRACT_METER_TYPE_OF_WATER
+            CHECK (DTYPE != 'WM' OR TYPE_OF_WATER IN ('HOT', 'COLD'))
+        </sql>
+
+        <rollback>
+            <sql>
+                ALTER TABLE ABSTRACT_METER
+                DROP CONSTRAINT CHECK_ABSTRACT_METER_TYPE_OF_WATER
+            </sql>
+        </rollback>
     </changeSet>
 </databaseChangeLog>
