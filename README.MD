@@ -38,10 +38,10 @@ Each meter has parameters: identification number, date of putting into exploitat
 > <a href="http://localhost:8080/documentation/swagger-resources">localhost:8080/documentation/swagger-resources</a><br>
 > <a href="http://localhost:8080/documentation/swagger-ui/">localhost:8080/documentation/swagger-ui/</a>
 >
-####There are 3 endpoints:
+#### There are 3 endpoints:
 
 
-###```GET /account/{accountNumber}```
+### ```GET /account/{accountNumber}```
 Displays account information. Includes information about a customer, information about attached meters and characteristics of these meters.
 Response example:
 ```
@@ -77,7 +77,7 @@ Response example:
 }
 ```
 
-###```GET /meter/{meterId}/history```
+### ```GET /meter/{meterId}/history```
 Displays a list of measurements for a specific meter. <b>meterId</b> = <b>id</b> of the meter from the ```GET /account/{accountNumber}``` response.
 Response example:
 ```
@@ -93,7 +93,7 @@ Response example:
 ]
 ```
 
-###```POST http://localhost:8080/meter/{meterId}/history``` 
+### ```POST http://localhost:8080/meter/{meterId}/history``` 
 Submitting the measurement for a specific meter. <b>meterId</b> = <b>id</b> of the meter from the ```GET /account/{accountNumber}``` response.
 Request body example:
 
