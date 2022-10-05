@@ -78,13 +78,13 @@ Response example:
 ```
 
 ###```GET /meter/{meterId}/history```
-Отображает список показаний по конкретному счётчику. <b>meterId</b> = <b>id</b> счётчика из запроса ```GET /account/{accountNumber}```.
-Пример ответа:
+Displays a list of measurements for a specific meter. <b>meterId</b> = <b>id</b> of the meter from the ```GET /account/{accountNumber}``` response.
+Response example:
 ```
-[                                           //Список переданных показаний по счётчику. Наиболее свежие показания ввержу списка
+[                                           //List of submitted meter measurements. The most recent ones in top of the list
   {
-    "created": "2022-10-05T15:43:38.123",   //Дата передачи показания
-    "value": 9.93                           //Значение
+    "created": "2022-10-05T15:43:38.123",   //Date of measurement
+    "value": 9.93                           //Value of measurement
   },
   {
     "created": "2022-10-05T15:43:38.121",
@@ -94,27 +94,26 @@ Response example:
 ```
 
 ###```POST http://localhost:8080/meter/{meterId}/history``` 
-Передача показаний по конкретному счётчику. <b>meterId</b> = <b>id</b> счётчика из запроса ```GET /account/{accountNumber}```.
-Пример тела запроса:
+Submitting the measurement for a specific meter. <b>meterId</b> = <b>id</b> of the meter from the ```GET /account/{accountNumber}``` response.
+Request body example:
 
 ```{"value": 100.56}```
 
-Значение value должно быть числом (разделитель - точка). Value не может быть меньше предыдущего отправленного показания
+The value must be a number (separated by a dot). Value cannot be less than the previous sent measurement
 
 
 
-## Структура БД
+## Database structure
 
 ![demo](sch.jpg)
 
 
-## Что ещё стоит реализовать:
+## What else needs to be done:
 
-* сделать логику работы счётчика по циклу, в соответствии с максимальным значением на циферблате
-* сделать защиту от сабмита показаний на чужой счётчик
-* добавить контроллеры для управления пользователями/счетами/счётчиками/показаниями
-* сделать логику, которая позволяет отменить ошибочно переданное значение. Сейчас, например, если пользователь передаст заведомо большее значение, то он уже не сможет его отменить
-
+* make the logic of the meter when it works in a cycle, in accordance with the maximum value on the scoreboard
+* make protection for submitting measurements to only your account meters
+* add controllers to manage users/accounts/meters/readings
+* make logic that allows you to cancel the erroneously passed value. Now, for example, if the user passes a larger value, then he will no longer be able to cancel it
 ---
 
 
