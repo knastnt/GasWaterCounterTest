@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Getter
@@ -12,5 +13,6 @@ import javax.persistence.Entity;
 @Entity
 @SuperBuilder
 @NoArgsConstructor
+@DiscriminatorValue("GM")
 public class GasMeter extends AbstractMeter{
 }
