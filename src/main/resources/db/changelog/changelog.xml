@@ -36,7 +36,7 @@
             <column name="ID" type="BIGINT" autoIncrement="true">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="ABSTRACT_METER_PK"/>
             </column>
-            <column name="DTYPE" type="VARCHAR(31)">
+            <column name="DTYPE" type="VARCHAR(2)">
                 <constraints nullable="false"/>
             </column>
             <column name="END_WORKING" type="date"/>
@@ -69,6 +69,9 @@
         </createTable>
     </changeSet>
     <changeSet author="knastnt" id="init-5">
+        <createIndex indexName="ACCOUNT_CUSTOMER_ACCOUNT_NUM_INDX" tableName="ACCOUNT">
+            <column name="ACCOUNT_NUM"/>
+        </createIndex>
         <createIndex indexName="ACCOUNT_CUSTOMER_ID_INDX" tableName="ACCOUNT">
             <column name="CUSTOMER_ID"/>
         </createIndex>
